@@ -15,7 +15,7 @@
         </a>
       </li>
 
-      <li class="sidebar-item {{ Request::Is('customers*') ? 'active' : '' }}">
+      <li class="sidebar-item {{ request()->is('customers') ? 'active' : '' }}">
         <a class="sidebar-link" href="/customers">
           <i class="align-middle" data-feather="users"></i> <span class="align-middle">Customers</span>
         </a>
