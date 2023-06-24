@@ -66,10 +66,17 @@
                     <td class="text-sm">{{ $item->phone }}</td>
                     <td class="text-sm">{{ $item->address }}</td>
                     <td align="center">
-                      <a href="/customers/{{ $item->id }}/edit" class="btn btn-sm btn-success rounded"><i
-                          class="align-middle" data-feather='edit'></i></a>
-                      <a href="#" class="btn btn-sm btn-danger rounded"><i class="align-middle"
-                          data-feather='trash'></i></a>
+
+                      <form action="/customers/{{ $item->id }}/destroy" method="POST">
+                        @method('DELETE')
+                        @csrf
+                        <div>
+                          <a href="/customers/{{ $item->id }}/edit" class="btn btn-sm btn-success rounded"><i
+                              class="align-middle" data-feather='edit'></i></a>
+                          <button class="btn btn-sm btn-danger" type="submit"><i class="align-middle"
+                              data-feather='trash'></i></button>
+                        </div>
+                      </form>
                     </td>
                   </tr>
                 @endforeach
