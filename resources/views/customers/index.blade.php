@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
 @section('content')
   <h1 class="h3 mb-3"><strong>Daftar</strong> Customers </h1>

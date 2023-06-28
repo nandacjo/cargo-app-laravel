@@ -16,12 +16,19 @@ use App\Http\Controllers\DashboardController;
 */
 
 // Dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-// Customers
-Route::get('/customers', [CustomerController::class, 'index'])->name('customers');
-Route::get('/customers/create', [CustomerController::class, 'create'])->name('customers.create');
-Route::post('/customers', [CustomerController::class, 'store'])->name('customers');
-Route::get('/customers/{id}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
-Route::put('/customers/{id}/update', [CustomerController::class, 'update'])->name('customers.update');
-Route::delete('/customers/{id}/destroy', [CustomerController::class, 'destroy'])->name('customers.destroy');
+    // Customers
+    Route::get('/customers', [CustomerController::class, 'index'])->name('customers');
+    Route::get('/customers/create', [CustomerController::class, 'create'])->name('customers.create');
+    Route::post('/customers', [CustomerController::class, 'store'])->name('customers');
+    Route::get('/customers/{id}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
+    Route::put('/customers/{id}/update', [CustomerController::class, 'update'])->name('customers.update');
+    Route::delete('/customers/{id}/destroy', [CustomerController::class, 'destroy'])->name('customers.destroy');
+});
+
+
+Auth::routes();
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
