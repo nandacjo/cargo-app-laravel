@@ -1,5 +1,11 @@
 @extends('layouts.master')
 
+<style>
+    .preview-image {
+        width: 200px;
+        border-radius: 6px
+    }
+</style>
 @section('content')
   <h1 class="h3 mb-3"><strong>Form</strong> Armada </h1>
 
@@ -14,6 +20,7 @@
           {!! Form::model($model, [
               'route' => $model->id !== null ? ['armadas.update', ['id' => $model->id]] : 'armadas',
               'method' => $model->id !== null ? 'PUT' : 'POST',
+              'enctype' => 'multipart/form-data',
           ]) !!}
 
           <div class="mb-3">
@@ -57,7 +64,13 @@
             @enderror
           </div>
 
-
+          <div class="mb-3">
+            {!! Form::label('files', 'Unggah File:', ['class' => 'form-label']) !!}
+            {!! Form::file('files[]', ['class' => 'form-control', 'multiple' => true, 'id' => 'fileInput']) !!}
+            @error('files')
+              <span class="text-danger text-xs mx-2">{{ $message }}</span>
+            @enderror
+          </div>
           <button type="submit" class="fw-bold btn btn-primary btn-sm"><i class="align-middle" data-feather="save"></i>
             Submit</button>
           <a href="/customers" class="fw-bold btn btn-sm btn-secondary mx-2"><i class="align-middle"
@@ -67,5 +80,51 @@
         </div>
       </div>
     </div>
+
+    <div class="col-6">
+        <div class="mb-3">
+            <div id="imagePreviewContainer">
+            </div>
+          </div>
+    </div>
   </div>
+
+
+  <script>
+    // JavaScript
+    const fileInput = document.getElementById('fileInput');
+    const previewImage = document.getElementById('previewImage');
+
+    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+
+    fileInput.addEventListener('change', function(event) {
+    const files = event.target.files;
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        const previewImage = document.createElement('img');
+        previewImage.src = e.target.result;
+        previewImage.classList.add('preview-image');
+        imagePreviewContainer.appendChild(previewImage);
+      };
+
+      reader.readAsDataURL(file);
+    }
+    });
+
+    // fileInput.addEventListener('change', function(event) {
+    //     const file = event.target.files[0];
+    //     const reader = new FileReader();
+
+    //     reader.onload = function(e) {
+    //         previewImage.src = e.target.result;
+    //         previewImage.style.display = 'block';
+    //     };
+
+    //     reader.readAsDataURL(file);
+    // });
+  </script>
 @endsection

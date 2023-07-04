@@ -59,7 +59,11 @@
                 @foreach ($model as $item)
                   <tr>
                     <td align="center">{{ $loop->iteration }}</td>
-                    <td class="text-sm">{{ $item->name }}</td>
+                    <td class="text-sm">
+                        @if ($item->pictures->isNotEmpty())
+                        <img src="/uploads/{{ $item->pictures->first()->file_name }}" alt=" {{ $item->name }}" width="100px" class="img-thumbnail">
+                        @endif
+                        {{ $item->name }}</td>
                     <td class="text-sm">{{ $item->max_weight }} KG</td>
                     <td class="text-sm">
                       L{{ $item->length . 'cm' }} x W{{ $item->width . 'cm' }} x H{{ $item->height . 'cm' }}

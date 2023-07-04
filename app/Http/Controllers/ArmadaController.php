@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreArmadaRequest;
 use App\Http\Requests\UpdateArmadaRequest;
 use App\Models\Armada;
+use App\Models\Picture;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 
 class ArmadaController extends Controller
 {
@@ -42,7 +45,7 @@ class ArmadaController extends Controller
             'width' => 'required|numeric',
         ]);
 
-        Armada::create([
+        $armada = Armada::create([
             'name' => $request->name,
             'max_weight' => $request->max_weight,
             'length' => $request->length,
@@ -50,6 +53,21 @@ class ArmadaController extends Controller
             'width' => $request->width
         ]);
 
+        // Upload images
+        if ($request->file('files')) {
+            $files = $request->file('files');
+            foreach ($files as $file) {
+
+            $filename = time() . Str::random(10) . '.' . $file->getClientOriginalExtension();
+
+                $file->move(public_path('uploads'), $filename);
+
+                Picture::create([
+                    'armada_id' => $armada->id,
+                    'file_name' => $filename,
+                ]);
+            }
+        }
         return redirect()->route('armadas.index')->with('success', 'Data armada berhasil ditambahkan');
     }
 
